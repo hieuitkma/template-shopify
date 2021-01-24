@@ -1,0 +1,35 @@
+<!-- {{ settings.heading_font.style }} -->
+
+{% for item in cart.items %}
+    <!-- <p>{{ cart.currency.symbol }}</p> -->
+    <a href="/products/{{ item.product.handle }}">
+        <img src="{{ item.image  | img_url: '250x' }}" alt="">
+    </a>
+{% endfor %}
+
+{% schema %}
+{
+  "name": "hi - Cart page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_shipping_estimator",
+      "label": "Show shipping rates calculator",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_estimator_default_country",
+      "label": "Default country to use",
+      "info": "If your customer is logged-in, the country in his default shipping address will be selected.",
+      "default": "United States"
+    }
+  ],
+  "presets": [
+    {
+      "category": "hi-test",
+      "name": "test Cart"
+    }
+  ]
+}
+{% endschema %}

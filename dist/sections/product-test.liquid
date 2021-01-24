@@ -1,0 +1,135 @@
+{%- for block in section.blocks -%}
+    <div class="hi-products-container" 
+    data-product-item="{{ section.settings.product_number }}"
+    data-product-price="{{ section.settings.show_product_price }}"
+    data-product-vendor="{{ section.settings.show_vendor }}"
+    >
+        
+        {%- assign collection = collections[block.settings.collection] -%}
+        <h1 class="hi-collection__title">{{ collection.title | upcase}}</h1>
+        <h3 class="hi-collection__desc">{{ collection.description }}</h3>
+
+        <div class="hi-products-content">
+          <div class="swiper-container">
+              <div class="swiper-wrapper">
+                  {%- for product in collection.products %} 
+
+                      <div class="swiper-slide">
+                          <a href="/products/{{product.handle}}" >
+                              <img class="hi-product__img" src="{{ product | img_url: '315x' }}" alt="">
+
+                              {% if section.settings.show_vendor == true %}
+                                <span class="hi-product__vendor"> {{ product.vendor }} </span>
+                              {% endif %}
+
+                              <p class="hi-product__name"> {{ product.title | upcase }} </p>
+
+                              {% if section.settings.show_product_price == true %}
+                                <span class="hi-product__price"> {{ product.price }} </span>
+                              {% endif %}
+                          </a>
+
+                          {% form "product", product %}
+                              <select name="id">
+                                  {% for variant in product.variants %}
+                                      {% if variant.available == true %}
+                                          <option value="{{variant.id}}"> {{ variant.title }} for {{ variant.price | money_with_currency }}</option>
+                                      {% else %}
+                                          <option disabled="disabled"> {{ variant.title }} - sold out!</option>
+                                      {% endif %}
+                                  {% endfor %}
+                              </select>
+                              <input type="text" value="1" name="quantity" placeholder="Numbers"/>
+                              <input class="hi-add" type="submit" name="add" id="add" value="Add to Cart" class="Button Button--primary">
+                          {% endform %}
+
+                          <!-- <div class="product-container">
+                            <select>
+                              <option>fgdg</option>
+                            </select>
+                            <input type="number">
+                            <button>Mua</button>
+                          </div> -->
+                      </div>
+                    
+                  {%- endfor -%}
+              </div>
+              <!-- Add Arrows -->
+              <div class="swiper-button-next">
+                <button class="flickity-prev-next-button next" type="button" aria-label="next"><svg viewBox="0 0 100 100"><path d="M 20,50 L 60,90 L 60,85 L 25,50  L 60,15 L 60,10 Z" class="arrow" transform="translate(100, 100) rotate(180) "></path></svg></button>
+              </div>
+              <div class="swiper-button-prev">
+                <button class="flickity-prev-next-button previous" type="button" aria-label="previous"><svg viewBox="0 0 100 100"><path d="M 20,50 L 60,90 L 60,85 L 25,50  L 60,15 L 60,10 Z" class="arrow"></path></svg></button>
+              </div>
+          </div>
+        </div>
+
+        <div class="hi-products__btn">
+          <a href="/collections/{{ collection.handle }}" class="Button Button--primary">{{ section.settings.product_btn }}</a>
+        </div>
+            
+    </div>
+{% endfor %}
+
+{% schema %}
+
+
+{
+    "name": "Collection page",
+    "max_blocks": 2,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "test"
+      },
+      {
+          "type": "range",
+          "id": "product_number",
+          "min": 3,
+          "max": 6,
+          "step": 1,
+          "label": "Product number",
+          "default": 4
+      },
+      {
+        "type": "text",
+        "id": "product_btn",
+        "label": "Product button",
+        "default": "VIEW ALL PRODUCTS"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_product_price",
+        "label": "Show product price",
+        "default": true
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          }
+        ]
+      }
+    ],
+    "presets": [
+        {
+            "category": "hi-test",
+            "name": "test product"
+        }
+    ]
+  }
+{% endschema %}
