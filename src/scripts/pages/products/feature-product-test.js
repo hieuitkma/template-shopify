@@ -1,18 +1,19 @@
 class FeaturePrTest {
     constructor() {
-        this.slide();
+        this.slideProduct();
     }
 
-    slide() {
+    slideProduct() {
         let productContainer = document.querySelector('.hi-products-container');
-        let slidesPerView = productContainer.dataset.productItem;
+        let slidesPerViews = productContainer.dataset.productItem;
+        console.log(slidesPerViews)
 
         let container = '.hi-products-container';
         let swiper = new Swiper(`${container} .swiper-container`, {
             navigation: {
-            nextEl: `${container} .swiper-button-next`,
-            prevEl: `${container} .swiper-button-prev`,
-            },  
+                nextEl: `${container} .swiper-button-next`,
+                prevEl: `${container} .swiper-button-prev`,
+            },
             breakpoints: {
                 320: {
                     slidesPerView: 2,
@@ -23,7 +24,7 @@ class FeaturePrTest {
                     spaceBetween: 30
                 },
                 640: {
-                    slidesPerView: slidesPerView,
+                    slidesPerView: slidesPerViews,
                     spaceBetween: 40
                 }
             }

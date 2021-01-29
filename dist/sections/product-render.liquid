@@ -1,0 +1,78 @@
+<h1 id="demo"></h1>
+<div class="bootstrap-wrapper product-container">
+    <script type="text/javascript">
+        var hieu = {{product | json }};
+    </script>
+    <div class="product__img col-6">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          {% for image in product.images %}
+            <div class="swiper-slide">
+              <img src="{{ image.src | product_img_url: '600x' }}">
+            </div>
+             
+          {% endfor %}
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+    <div class="product__content col-6">
+        <div class="product__content-main">
+            <div class="product__title">{{ product.title | upcase }}</div>
+            <div class="product__price">{{ product.price }}</div>
+
+            <!-- add product 1 select    -->
+            <!-- <form action="" class="product-form">
+                <select name="id" id="productSelect" class="product-variants trees">
+                    {% for variant in product.variants %}
+                      {% if variant.available %}
+                        <option {% if variant == product.selected_or_first_available_variant %} selected {% endif %} value="{{ variant.id }}">{{ variant.title }}</option>
+                      {% else %}
+                        <option disabled="disabled">
+                          {{ variant.title }} - Sold out
+                        </option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                  <div class="product__submit">
+                    <input min="1" type="number" id="quantity" value="1" />
+                    <button class="product__add">Add to cart</button>
+                </div>
+            </form> -->
+
+            <!-- add product 2 select    -->
+            <form action="" class="product-form">
+              <div class="product-form__select">
+                {% for product_option in product.options_with_values %}
+                  <div class="product-form__select-group">
+                      <label>{{ product_option.name }}</label>
+                      <select>
+                        {% for value in product_option.values %}
+                          <option {% if product_option.selected_value == value %}selected{% endif %}>
+                            {{ value }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                {% endfor %}
+              </div>
+              
+              <div class="product__submit">
+                <input min="1" type="number" id="quantity" value="1" />
+                <button class="product__add">Add to cart</button>
+              </div>
+            </form>
+            
+            <div class="product desc">{{ product.description }}</div>
+        </div>
+
+    </div>
+</div>
+
+<script  type="text/javascript">
+  let data = {{cart | json }};
+</script>
